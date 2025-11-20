@@ -1,0 +1,1462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Leave & Time Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Modern, clean font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f4f6fb;
+      --bg-card: #ffffff;
+      --primary: #2563eb;
+      --primary-soft: rgba(37, 99, 235, 0.12);
+      --primary-dark: #1d4ed8;
+      --border: #e2e8f0;
+      --text: #0f172a;
+      --muted: #6b7280;
+      --danger: #ef4444;
+      --success: #16a34a;
+      --radius-lg: 16px;
+      --radius-md: 10px;
+      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.08);
+      --shadow-light: 0 8px 20px rgba(15, 23, 42, 0.06);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(circle at top left, #e0f2fe 0, #f4f6fb 40%, #f4f6fb 100%);
+      color: var(--text);
+    }
+
+    /* Generic layout */
+
+    .app-shell {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* LOGIN PAGE */
+
+    .login-page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 16px;
+    }
+
+    .login-container {
+      max-width: 960px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 24px;
+      box-shadow: var(--shadow-soft);
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+      overflow: hidden;
+      backdrop-filter: blur(14px);
+    }
+
+    @media (max-width: 900px) {
+      .login-container {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .login-hero {
+        display: none;
+      }
+    }
+
+    .login-hero {
+      padding: 32px 40px;
+      background: radial-gradient(circle at top left, #1d4ed8 0, #020617 55%);
+      color: #e5e7eb;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #38bdf8, #22c55e);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 20px;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+    }
+
+    .brand-text-title {
+      font-weight: 600;
+      font-size: 18px;
+      letter-spacing: 0.04em;
+    }
+
+    .brand-text-sub {
+      font-size: 12px;
+      color: #9ca3af;
+    }
+
+    .login-hero-main {
+      margin-top: 40px;
+      margin-bottom: 40px;
+    }
+
+    .login-hero-main h1 {
+      font-size: 32px;
+      line-height: 1.2;
+      margin: 0 0 16px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.6);
+      font-size: 11px;
+      color: #e5e7eb;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+    }
+
+    .pill-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #22c55e;
+    }
+
+    .login-hero-main p {
+      margin: 0;
+      font-size: 14px;
+      color: #9ca3af;
+      max-width: 320px;
+    }
+
+    .login-hero-footer {
+      font-size: 11px;
+      color: #6b7280;
+    }
+
+    .login-form-wrap {
+      padding: 32px 32px 36px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .login-header-title {
+      font-weight: 600;
+      font-size: 20px;
+      margin-bottom: 4px;
+    }
+
+    .login-header-sub {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
+
+    .input {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      font-size: 14px;
+      outline: none;
+      background: #f9fafb;
+      transition: border-color 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+    }
+
+    .input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.3);
+      background: #ffffff;
+    }
+
+    .input::placeholder {
+      color: #9ca3af;
+    }
+
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      font-size: 12px;
+    }
+
+    .checkbox-inner {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      color: var(--muted);
+    }
+
+    .link {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .link:hover {
+      text-decoration: underline;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 16px;
+      font-size: 14px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      font-weight: 500;
+      transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.12s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: white;
+      box-shadow: 0 12px 28px rgba(37, 99, 235, 0.35);
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 32px rgba(37, 99, 235, 0.4);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+      box-shadow: 0 8px 18px rgba(37, 99, 235, 0.3);
+    }
+
+    .login-meta {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 10px;
+    }
+
+    .login-meta strong {
+      color: #4b5563;
+    }
+
+    .alert {
+      font-size: 12px;
+      border-radius: 12px;
+      padding: 8px 10px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .alert-error {
+      background: #fee2e2;
+      color: #b91c1c;
+      border: 1px solid #fecaca;
+    }
+
+    .alert-success {
+      background: #dcfce7;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+    }
+
+    .alert-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: currentColor;
+    }
+
+    /* PORTAL SHELL (หลัง login) */
+
+    .portal {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .portal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 20px;
+      background: rgba(15, 23, 42, 0.94);
+      color: #e5e7eb;
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .portal-header-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .portal-logo {
+      width: 32px;
+      height: 32px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #38bdf8, #22c55e);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .portal-title {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .portal-subtitle {
+      font-size: 11px;
+      color: #9ca3af;
+    }
+
+    .portal-header-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 12px;
+    }
+
+    .badge-soft {
+      background: rgba(31, 41, 55, 0.7);
+      border-radius: 999px;
+      padding: 4px 9px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+    }
+
+    .badge-soft-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+    }
+
+    .avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      background: #1e293b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .avatar-initials {
+      color: #e5e7eb;
+    }
+
+    .portal-main {
+      padding: 18px 20px 26px;
+      max-width: 1240px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .tabs {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 16px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+
+    .tab {
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: 12px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .tab span.dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--border);
+    }
+
+    .tab.active {
+      background: rgba(37, 99, 235, 0.08);
+      border-color: rgba(37, 99, 235, 0.4);
+      color: var(--primary-dark);
+    }
+
+    .tab.active span.dot {
+      background: var(--primary);
+    }
+
+    .portal-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 2.1fr) minmax(0, 1.4fr);
+      gap: 18px;
+    }
+
+    @media (max-width: 1000px) {
+      .portal-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .card {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      padding: 16px 16px 18px;
+      box-shadow: var(--shadow-light);
+      border: 1px solid rgba(226, 232, 240, 0.7);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .card-subtitle {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .pill-outline {
+      font-size: 11px;
+      border-radius: 999px;
+      padding: 3px 8px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    /* DASHBOARD */
+
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    @media (max-width: 700px) {
+      .kpi-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    .kpi-card {
+      border-radius: var(--radius-md);
+      padding: 10px 11px 11px;
+      border: 1px solid #e5e7eb;
+      background: linear-gradient(135deg, #f9fafb, #eff6ff);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .kpi-label {
+      font-size: 11px;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .kpi-value {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .kpi-meta {
+      font-size: 11px;
+      color: #6b7280;
+    }
+
+    .btn-ghost {
+      border-radius: 999px;
+      border: 1px dashed #cbd5f5;
+      padding: 8px 12px;
+      font-size: 12px;
+      background: #f9fafb;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #1d4ed8;
+    }
+
+    .btn-ghost:hover {
+      background: #eff6ff;
+    }
+
+    .stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .timeline-item {
+      padding: 8px 9px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 12px;
+      background: #f9fafb;
+    }
+
+    .status-badge {
+      font-size: 10px;
+      border-radius: 999px;
+      padding: 3px 6px;
+      border: 1px solid transparent;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+    }
+
+    .status-pending {
+      background: #fef9c3;
+      color: #854d0e;
+      border-color: #facc15;
+    }
+
+    .status-approved {
+      background: #dcfce7;
+      color: #166534;
+      border-color: #22c55e;
+    }
+
+    .status-rejected {
+      background: #fee2e2;
+      color: #b91c1c;
+      border-color: #f97373;
+    }
+
+    .calendar-mini {
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      padding: 10px 11px;
+      font-size: 11px;
+      background: #f9fafb;
+    }
+
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 2px;
+      text-align: center;
+    }
+
+    .calendar-day-name {
+      color: var(--muted);
+      font-size: 10px;
+      padding-bottom: 3px;
+    }
+
+    .calendar-day {
+      padding: 4px 0;
+      border-radius: 6px;
+      font-size: 11px;
+      cursor: default;
+    }
+
+    .calendar-day-today {
+      border-radius: 999px;
+      background: var(--primary-soft);
+      color: var(--primary-dark);
+      font-weight: 600;
+    }
+
+    .calendar-day-leave {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+
+    .badge-dot {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    .badge-dot span {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #22c55e;
+    }
+
+    /* NOTIFICATION LIST */
+
+    .notif-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 12px;
+      max-height: 220px;
+      overflow: auto;
+      padding-right: 2px;
+    }
+
+    .notif-item {
+      border-radius: 10px;
+      padding: 7px 8px;
+      border: 1px solid var(--border);
+      background: #f9fafb;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .notif-main {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .notif-title {
+      font-weight: 500;
+    }
+
+    .notif-meta {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .notif-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #22c55e;
+      margin-top: 6px;
+    }
+
+    /* REQUEST LEAVE FORM */
+
+    .two-col {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 900px) {
+      .two-col {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 80px;
+      resize: vertical;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      font-size: 13px;
+      background: #f9fafb;
+      outline: none;
+      transition: border-color 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+    }
+
+    textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.3);
+      background: #ffffff;
+    }
+
+    .half-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .badge-warning {
+      font-size: 11px;
+      border-radius: 10px;
+      padding: 7px 9px;
+      border: 1px solid #facc15;
+      background: #fefce8;
+      color: #854d0e;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .upload-hint {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .flex-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .btn-outline {
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      padding: 7px 12px;
+      font-size: 12px;
+      background: #f9fafb;
+      cursor: pointer;
+      color: #374151;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-outline:hover {
+      background: #e5e7eb;
+    }
+
+    .text-muted {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 18px;
+      right: 18px;
+      min-width: 260px;
+      max-width: 320px;
+      padding: 9px 11px;
+      font-size: 13px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      background: #111827;
+      color: #e5e7eb;
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.6);
+      opacity: 0;
+      transform: translateY(16px);
+      pointer-events: none;
+      transition: opacity 0.18s ease, transform 0.18s ease;
+      z-index: 50;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .toast-pill {
+      border-radius: 999px;
+      padding: 2px 7px;
+      font-size: 10px;
+      background: rgba(34, 197, 94, 0.12);
+      color: #22c55e;
+    }
+
+    .toast-close {
+      background: none;
+      border: none;
+      color: #9ca3af;
+      cursor: pointer;
+      font-size: 16px;
+      padding: 0 2px;
+    }
+
+  </style>
+</head>
+<body>
+
+<!-- LOGIN PAGE -->
+<div id="loginPage" class="login-page">
+  <div class="login-container">
+    <!-- Left: Brand / Hero -->
+    <div class="login-hero">
+      <div>
+        <div class="brand">
+          <div class="brand-logo">L</div>
+          <div>
+            <div class="brand-text-title">Leave &amp; Time Portal</div>
+            <div class="brand-text-sub">Modern Workforce Suite</div>
+          </div>
+        </div>
+
+        <div class="login-hero-main">
+          <div class="pill">
+            <span class="pill-dot"></span>
+            Single place for leave & timesheet
+          </div>
+          <h1>Plan your time off<br />without spreadsheets.</h1>
+          <p>Submit leave requests, review approvals, and view your timesheet in one secure, lightweight portal.</p>
+        </div>
+      </div>
+
+      <div class="login-hero-footer">
+        SSO &amp; AD ready • PDPA compliant • Designed for HR, managers, and employees
+      </div>
+    </div>
+
+    <!-- Right: Login Form -->
+    <div class="login-form-wrap">
+      <div class="login-header">
+        <div class="login-header-title">Welcome back</div>
+        <div class="login-header-sub">Sign in with your corporate account to access leave &amp; timesheet.</div>
+      </div>
+
+      <div id="loginAlert" class="alert alert-error hidden">
+        <span class="alert-dot"></span>
+        Invalid username or password.
+      </div>
+
+      <div class="form-group">
+        <label for="username">ID / Username</label>
+        <input id="username" class="input" placeholder="e.g. noppaw.w" />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input id="password" class="input" type="password" placeholder="••••••••" />
+      </div>
+
+      <div class="checkbox-row">
+        <label class="checkbox-inner">
+          <input id="rememberMe" type="checkbox" />
+          <span>Remember me on this device</span>
+        </label>
+        <a href="#" class="link">Forgot password?</a>
+      </div>
+
+      <button class="btn btn-primary" onclick="handleLogin()">Sign in</button>
+
+      <div class="login-meta">
+        This portal is protected by <strong>AD authentication</strong> and follows <strong>PDPA</strong> guidelines.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PORTAL (หลัง Login) -->
+<div id="portal" class="portal hidden app-shell">
+  <header class="portal-header">
+    <div class="portal-header-left">
+      <div class="portal-logo">L</div>
+      <div>
+        <div class="portal-title">Leave &amp; Time Portal</div>
+        <div class="portal-subtitle">Employee · Digital Workplace</div>
+      </div>
+    </div>
+    <div class="portal-header-right">
+      <div class="badge-soft">
+        <span class="badge-soft-dot"></span>
+        Online
+      </div>
+      <div class="text-muted" style="color:#e5e7eb;font-size:11px;">
+        Role: Employee
+      </div>
+      <div class="avatar">
+        <span class="avatar-initials">FL</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="portal-main">
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab active" data-view="dashboard" onclick="switchView('dashboard', this)">
+        <span class="dot"></span>
+        Dashboard
+      </button>
+      <button class="tab" data-view="requestLeave" onclick="switchView('requestLeave', this)">
+        <span class="dot"></span>
+        Request Leave
+      </button>
+      <button class="tab" data-view="placeholderTimesheet" onclick="switchView('placeholderTimesheet', this)">
+        <span class="dot"></span>
+        Timesheet (preview)
+      </button>
+    </div>
+
+    <!-- DASHBOARD VIEW -->
+    <section id="view-dashboard">
+      <div class="portal-grid">
+        <!-- Left column -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Leave summary</div>
+              <div class="card-subtitle">Your available quota for this year</div>
+            </div>
+            <span class="pill-outline">As of today</span>
+          </div>
+
+          <div class="kpi-row">
+            <div class="kpi-card">
+              <div class="kpi-label">
+                <span>Annual Leave</span>
+              </div>
+              <div class="kpi-value">10 / 15</div>
+              <div class="kpi-meta">Remaining / Total (days)</div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-label">
+                <span>Sick Leave</span>
+              </div>
+              <div class="kpi-value">2 / 10</div>
+              <div class="kpi-meta">Remaining / Total (days)</div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-label">
+                <span>Business Leave</span>
+              </div>
+              <div class="kpi-value">1 / 5</div>
+              <div class="kpi-meta">Remaining / Total (days)</div>
+            </div>
+          </div>
+
+          <div class="card-subtitle" style="margin-bottom:8px;">Quick actions</div>
+          <div class="flex-row">
+            <button class="btn-ghost" onclick="switchView('requestLeave')">
+              + Request new leave
+            </button>
+            <span class="text-muted">or check your recent approvals below.</span>
+          </div>
+
+          <div style="margin-top:14px;">
+            <div class="card-subtitle" style="margin-bottom:6px;">Recent leave activity</div>
+            <div class="stack">
+              <div class="timeline-item">
+                <div>
+                  <div style="font-weight:500;">Annual Leave · 10–12 Nov 2025</div>
+                  <div class="notif-meta">Waiting for DM approval</div>
+                </div>
+                <span class="status-badge status-pending">
+                  <span>●</span> Pending DM
+                </span>
+              </div>
+
+              <div class="timeline-item">
+                <div>
+                  <div style="font-weight:500;">Sick Leave · 03 Nov 2025</div>
+                  <div class="notif-meta">Approved by DM &amp; HR</div>
+                </div>
+                <span class="status-badge status-approved">
+                  <span>✓</span> Approved
+                </span>
+              </div>
+
+              <div class="timeline-item">
+                <div>
+                  <div style="font-weight:500;">Business Leave · 25 Oct 2025</div>
+                  <div class="notif-meta">Rejected · insufficient detail</div>
+                </div>
+                <span class="status-badge status-rejected">
+                  <span>!</span> Rejected
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right column -->
+        <div class="stack">
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Calendar</div>
+                <div class="card-subtitle">This month overview</div>
+              </div>
+              <span class="pill-outline">Nov 2025</span>
+            </div>
+            <div class="calendar-mini">
+              <div class="calendar-header">
+                <span>November 2025</span>
+                <span class="badge-dot"><span></span>Today</span>
+              </div>
+              <div class="calendar-grid">
+                <div class="calendar-day-name">Mo</div>
+                <div class="calendar-day-name">Tu</div>
+                <div class="calendar-day-name">We</div>
+                <div class="calendar-day-name">Th</div>
+                <div class="calendar-day-name">Fr</div>
+                <div class="calendar-day-name">Sa</div>
+                <div class="calendar-day-name">Su</div>
+
+                <!-- fake simple calendar row for visual -->
+                <div></div><div></div><div class="calendar-day">1</div>
+                <div class="calendar-day">2</div>
+                <div class="calendar-day">3</div>
+                <div class="calendar-day">4</div>
+                <div class="calendar-day">5</div>
+
+                <div class="calendar-day">6</div>
+                <div class="calendar-day calendar-day-leave">7</div>
+                <div class="calendar-day calendar-day-leave">8</div>
+                <div class="calendar-day calendar-day-leave">9</div>
+                <div class="calendar-day">10</div>
+                <div class="calendar-day calendar-day-today">11</div>
+                <div class="calendar-day">12</div>
+
+                <div class="calendar-day">13</div>
+                <div class="calendar-day">14</div>
+                <div class="calendar-day">15</div>
+                <div class="calendar-day">16</div>
+                <div class="calendar-day">17</div>
+                <div class="calendar-day">18</div>
+                <div class="calendar-day">19</div>
+
+                <div class="calendar-day">20</div>
+                <div class="calendar-day">21</div>
+                <div class="calendar-day">22</div>
+                <div class="calendar-day">23</div>
+                <div class="calendar-day">24</div>
+                <div class="calendar-day">25</div>
+                <div class="calendar-day">26</div>
+
+                <div class="calendar-day">27</div>
+                <div class="calendar-day">28</div>
+                <div class="calendar-day">29</div>
+                <div class="calendar-day">30</div>
+                <div></div><div></div><div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Notifications</div>
+                <div class="card-subtitle">Latest updates from leave &amp; timesheet</div>
+              </div>
+              <span class="pill-outline">3 unread</span>
+            </div>
+            <div class="notif-list">
+              <div class="notif-item">
+                <div class="notif-main">
+                  <div class="notif-title">Leave approved by HR</div>
+                  <div class="notif-meta">Annual Leave · 03 Nov 2025 · 1 day</div>
+                </div>
+                <div class="notif-dot"></div>
+              </div>
+              <div class="notif-item">
+                <div class="notif-main">
+                  <div class="notif-title">New request status</div>
+                  <div class="notif-meta">Your leave is waiting for DM approval.</div>
+                </div>
+              </div>
+              <div class="notif-item">
+                <div class="notif-main">
+                  <div class="notif-title">Timesheet export ready</div>
+                  <div class="notif-meta">Your monthly timesheet CSV has been generated.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- REQUEST LEAVE VIEW -->
+    <section id="view-requestLeave" class="hidden">
+      <div class="card" style="margin-bottom:14px;">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Request new leave</div>
+            <div class="card-subtitle">Fill in details and submit for approval.</div>
+          </div>
+          <span class="pill-outline">2-step approval: DM → HR</span>
+        </div>
+        <div class="two-col">
+          <!-- Left: Form -->
+          <div>
+            <div class="form-group">
+              <label for="leaveType">Leave type</label>
+              <select id="leaveType" class="input" onchange="updateQuotaCard()">
+                <option value="annual" selected>Annual Leave</option>
+                <option value="sick">Sick Leave</option>
+                <option value="business">Business Leave</option>
+              </select>
+            </div>
+
+            <div class="form-group half-row">
+              <div>
+                <label for="dateFrom">From</label>
+                <input id="dateFrom" type="date" class="input" />
+              </div>
+              <div>
+                <label for="dateTo">To</label>
+                <input id="dateTo" type="date" class="input" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>
+                <input type="checkbox" id="halfDay" onchange="toggleHalfDay()" />
+                Half day
+              </label>
+              <div id="halfDayOptions" class="form-group hidden" style="margin-top:6px;">
+                <select id="halfDaySession" class="input">
+                  <option value="am">Morning (AM)</option>
+                  <option value="pm">Afternoon (PM)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="reason">Reason</label>
+              <textarea id="reason" placeholder="e.g. Personal errands, family matters, or medical check-up."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="attachment">Attachment (optional)</label>
+              <input id="attachment" type="file" class="input" />
+              <div class="upload-hint">Attach medical certificate or supporting document if required.</div>
+            </div>
+
+            <div class="flex-row" style="margin-top:8px;">
+              <button class="btn btn-primary" style="width:auto;padding-inline:18px;" onclick="submitLeaveRequest()">
+                Submit request
+              </button>
+              <button class="btn-outline" type="button" onclick="resetLeaveForm()">
+                Clear form
+              </button>
+              <span class="text-muted">You will receive notifications when your DM or HR approves.</span>
+            </div>
+          </div>
+
+          <!-- Right: Quota & Info -->
+          <div>
+            <div id="quotaCard" class="card" style="padding:12px 13px;margin-bottom:10px;">
+              <div class="card-header" style="margin-bottom:6px;">
+                <div>
+                  <div class="card-title" style="font-size:13px;">Annual Leave quota</div>
+                  <div class="card-subtitle">Remaining vs total for this year</div>
+                </div>
+              </div>
+              <div class="kpi-row" style="grid-template-columns:repeat(2,minmax(0,1fr));margin-bottom:4px;">
+                <div class="kpi-card" style="background:#f9fafb;">
+                  <div class="kpi-label">
+                    <span>Remaining</span>
+                  </div>
+                  <div class="kpi-value" id="quotaRemaining">10 days</div>
+                </div>
+                <div class="kpi-card" style="background:#f9fafb;">
+                  <div class="kpi-label">
+                    <span>Total</span>
+                  </div>
+                  <div class="kpi-value" id="quotaTotal">15 days</div>
+                </div>
+              </div>
+              <div class="text-muted" id="quotaNote">
+                You have enough annual leave quota for normal requests.
+              </div>
+            </div>
+
+            <div id="quotaWarning" class="badge-warning hidden">
+              <div>!</div>
+              <div>
+                <strong>Leave quota might be insufficient.</strong><br />
+                If the requested dates exceed your remaining quota, the system will block submission and ask you to contact HR or admin.
+              </div>
+            </div>
+
+            <div class="card" style="margin-top:10px;padding:11px 12px;">
+              <div class="card-title" style="font-size:13px;margin-bottom:4px;">Approval flow</div>
+              <div class="text-muted" style="margin-bottom:6px;">
+                Once you submit:
+              </div>
+              <ol style="padding-left:18px;font-size:11px;color:var(--muted);margin:0;">
+                <li>Request goes to your DM for review.</li>
+                <li>Upon DM approval, HR will review &amp; deduct quota.</li>
+                <li>You receive notifications at every step.</li>
+              </ol>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TIMESHEET PREVIEW VIEW (placeholder) -->
+    <section id="view-placeholderTimesheet" class="hidden">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Timesheet overview (preview)</div>
+            <div class="card-subtitle">Simple mock view of hours and export button</div>
+          </div>
+          <button class="btn-outline" type="button" onclick="exportTimesheet()">
+            Export CSV
+          </button>
+        </div>
+        <div class="kpi-row" style="margin-bottom:18px;">
+          <div class="kpi-card">
+            <div class="kpi-label"><span>Total hours</span></div>
+            <div class="kpi-value">168 h</div>
+            <div class="kpi-meta">This month</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label"><span>Average / day</span></div>
+            <div class="kpi-value">8.0 h</div>
+            <div class="kpi-meta">Mon–Fri</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label"><span>Overtime</span></div>
+            <div class="kpi-value">6 h</div>
+            <div class="kpi-meta">Logged as OT</div>
+          </div>
+        </div>
+
+        <div class="card-subtitle" style="margin-bottom:6px;">Recent timesheet entries</div>
+        <div style="overflow:auto;">
+          <table style="width:100%;border-collapse:collapse;font-size:12px;">
+            <thead>
+              <tr style="background:#f3f4f6;">
+                <th style="text-align:left;padding:6px 8px;border-bottom:1px solid #e5e7eb;">Date</th>
+                <th style="text-align:left;padding:6px 8px;border-bottom:1px solid #e5e7eb;">Project</th>
+                <th style="text-align:left;padding:6px 8px;border-bottom:1px solid #e5e7eb;">Hours</th>
+                <th style="text-align:left;padding:6px 8px;border-bottom:1px solid #e5e7eb;">Note</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="padding:6px 8px;border-bottom:1px solid #e5e7eb;">2025-11-17</td>
+                <td style="padding:6px 8px;border-bottom:1px solid #e5e7eb;">Leave Portal Enhancement</td>
+                <td style="padding:6px 8px;border-bottom:1px solid #e5e7eb;">8.0</td>
+                <td style="padding:6px 8px;border-bottom:1px solid #e5e7eb;">UI refinement &amp; testing</td>
+              </tr>
+              <tr>
+                <td style="padding:6px 8px;border-bottom:1px solid #e5e7eb;">2025-11-16</td>
+                <td style="padding:6px 8px;border-bottom:1px solid #e5e7eb;">Core HR Integration</td>
+                <td style="padding:6px 8px;border-bottom:1px solid #e5e7eb;">7.5</td>
+                <td style="padding:6px 8px;border-bottom:1px solid #e5e7eb;">API mapping &amp; review</td>
+              </tr>
+              <tr>
+                <td style="padding:6px 8px;border-bottom:1px solid #e5e7eb;">2025-11-15</td>
+                <td style="padding:6px 8px;border-bottom:1px solid #e5e7eb;">Meeting &amp; Planning</td>
+                <td style="padding:6px 8px;border-bottom:1px solid #e5e7eb;">8.0</td>
+                <td style="padding:6px 8px;border-bottom:1px solid #e5e7eb;">Sprint planning</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="text-muted" style="margin-top:10px;">
+          *This is a static prototype table. In a real system, data will be loaded from your timesheet backend.
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="toast">
+  <div>
+    <div style="font-size:11px;margin-bottom:2px;">
+      <span class="toast-pill">Portal</span>
+    </div>
+    <div id="toastMessage">Action completed.</div>
+  </div>
+  <button class="toast-close" onclick="hideToast()">×</button>
+</div>
+
+<script>
+  function handleLogin() {
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
+    const alertBox = document.getElementById('loginAlert');
+
+    if (!username || !password) {
+      alertBox.classList.remove('hidden');
+      alertBox.textContent = 'Please enter both username and password.';
+      return;
+    }
+
+    // Prototype: accept any non-empty username/password
+    alertBox.classList.add('hidden');
+    document.getElementById('loginPage').classList.add('hidden');
+    document.getElementById('portal').classList.remove('hidden');
+    showToast('Signed in successfully. Welcome to Leave & Time Portal.');
+  }
+
+  function switchView(view, el) {
+    const views = ['dashboard', 'requestLeave', 'placeholderTimesheet'];
+    views.forEach(v => {
+      const section = document.getElementById('view-' + v);
+      if (section) {
+        section.classList.add('hidden');
+      }
+    });
+
+    const target = document.getElementById('view-' + view);
+    if (target) target.classList.remove('hidden');
+
+    const tabs = document.querySelectorAll('.tab');
+    tabs.forEach(tab => tab.classList.remove('active'));
+    if (el) {
+      el.classList.add('active');
+    } else {
+      const activeTab = document.querySelector('.tab[data-view="' + view + '"]');
+      if (activeTab) activeTab.classList.add('active');
+    }
+  }
+
+  function toggleHalfDay() {
+    const cb = document.getElementById('halfDay');
+    const opt = document.getElementById('halfDayOptions');
+    if (cb.checked) opt.classList.remove('hidden');
+    else opt.classList.add('hidden');
+  }
+
+  function updateQuotaCard() {
+    const type = document.getElementById('leaveType').value;
+    const remaining = document.getElementById('quotaRemaining');
+    const total = document.getElementById('quotaTotal');
+    const note = document.getElementById('quotaNote');
+    const warn = document.getElementById('quotaWarning');
+
+    if (type === 'annual') {
+      remaining.textContent = '10 days';
+      total.textContent = '15 days';
+      note.textContent = 'You have enough annual leave quota for normal requests.';
+      warn.classList.add('hidden');
+    } else if (type === 'sick') {
+      remaining.textContent = '2 days';
+      total.textContent = '10 days';
+      note.textContent = 'Sick leave may require medical certificate for HR approval.';
+      warn.classList.add('hidden');
+    } else {
+      remaining.textContent = '1 day';
+      total.textContent = '5 days';
+      note.textContent = 'Your business leave quota is relatively low for this year.';
+      warn.classList.remove('hidden');
+    }
+  }
+
+  function resetLeaveForm() {
+    document.getElementById('leaveType').value = 'annual';
+    document.getElementById('dateFrom').value = '';
+    document.getElementById('dateTo').value = '';
+    document.getElementById('halfDay').checked = false;
+    toggleHalfDay();
+    document.getElementById('reason').value = '';
+    document.getElementById('attachment').value = '';
+    updateQuotaCard();
+  }
+
+  function submitLeaveRequest() {
+    const dateFrom = document.getElementById('dateFrom').value;
+    const dateTo = document.getElementById('dateTo').value;
+    const reason = document.getElementById('reason').value.trim();
+
+    if (!dateFrom || !dateTo || !reason) {
+      showToast('Please fill in date range and reason before submitting.');
+      return;
+    }
+
+    // Prototype only: just show toast
+    showToast('Leave request submitted. Waiting for DM and HR approval.');
+    resetLeaveForm();
+    switchView('dashboard');
+  }
+
+  function exportTimesheet() {
+    showToast('Timesheet export started. You will receive a CSV shortly.');
+  }
+
+  let toastTimer;
+  function showToast(message) {
+    const toast = document.getElementById('toast');
+    const msg = document.getElementById('toastMessage');
+    msg.textContent = message;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(hideToast, 3500);
+  }
+
+  function hideToast() {
+    const toast = document.getElementById('toast');
+    toast.classList.remove('show');
+  }
+
+  // Initial quota state
+  updateQuotaCard();
+</script>
+</body>
+</html>
